@@ -1,12 +1,12 @@
 {
   "metadata": {
-    "author": "vBook",
+    "author": "SilverKnightKMA",
     "description": ""
   },
   "data": [
     {
       "name": "Hako Novel - Custom",
-      "author": "TungVT",
+      "author": "SilverKnightKMA",
       "path": "https://raw.githubusercontent.com/SilverKnightKMA/vbook-ext/refs/heads/main/hako-custom/plugin.zip",
       "version": 1,
       "source": "https://ln.hako.re",
