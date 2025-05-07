@@ -1,0 +1,19 @@
+{
+  "metadata": {
+    "author": "vBook",
+    "description": ""
+  },
+  "data": [
+    {
+      "name": "Hako Novel - Custom",
+      "author": "TungVT",
+      "path": "https://github.com/SilverKnightKMA/vbook-ext/raw/refs/heads/master/hako-custom/plugin.zip",
+      "version": 12,
+      "source": "https://ln.hako.re",
+      "icon": "https://github.com/SilverKnightKMA/vbook-ext/raw/refs/heads/master/hako-custom/icon.png",
+      "description": "Đọc truyện trên trang Hako",
+      "type": "novel",
+      "locale": "vi_VN"
+    }
+  ]
+}
