@@ -1,0 +1,19 @@
+{
+  "metadata": {
+    "author": "SilverKnightKMA",
+    "description": "Danh sách các plugin"
+  },
+  "data": [
+    {
+      "name": "Hako Novel - Custom",
+      "author": "SilverKnightKMA",
+      "path": "https://github.com/SilverKnightKMA/vbook-ext/releases/download/main/hako-custom.zip",
+      "version": "20250508210715",
+      "source": "https://docln.sbs",
+      "icon": "https://raw.githubusercontent.com/SilverKnightKMA/vbook-ext/refs/heads/main/hako-custom/icon.png",
+      "description": "Đọc truyện trên trang Hako",
+      "type": "novel",
+      "locale": "vi_VN"
+    }
+  ]
+}
