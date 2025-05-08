@@ -18,7 +18,7 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install dependencies (nếu cần)
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
 
@@ -35,7 +35,7 @@ jobs:
                           file_path = os.path.join(root, file)
                           zipf.write(file_path, os.path.relpath(file_path, dir_path))
 
-          root_dir = '.' # Thư mục gốc của repository
+          root_dir = '.'
           for item in os.listdir(root_dir):
               item_path = os.path.join(root_dir, item)
               if os.path.isdir(item_path):
@@ -52,7 +52,8 @@ jobs:
       - name: Create Release
         uses: actions/create-release@v1
         with:
-          tag_name: ${{ github.run_id }} # Sử dụng run ID làm tag tạm thời
+          github_token: ${{ github.token }}
+          tag_name: ${{ github.run_id }}
           release_name: Release ${{ github.run_id }}
           draft: true
           prerelease: false
@@ -62,5 +63,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ${{ github.workspace }}/*.zip
-          asset_name: ${{ github.base_ref }}-${{ github.head_ref }}-${{ github.run_id }}-${{ github.run_attempt }}.zip # Đặt tên duy nhất cho file zip release
+          asset_name: ${{ github.base_ref }}-${{ github.head_ref }}-${{ github.run_id }}-${{ github.run_attempt }}.zip
           asset_content_type: application/zip
