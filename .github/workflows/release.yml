@@ -106,9 +106,9 @@ jobs:
               "data": plugin_data
           }
 
-          with open('plugins.json', 'w') as outfile:
+          with open('plugin.json', 'w') as outfile:
               json.dump(output_plugin_json, outfile, indent=2, ensure_ascii=False)
-              print("Created plugins.json")
+              print("Created plugin.json")
           EOF
 
       - name: Upload plugin to release
