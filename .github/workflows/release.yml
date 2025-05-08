@@ -49,24 +49,11 @@ jobs:
                       print(f"Created: {zip_filepath}")
           EOF
 
-      - name: Create Release
-        uses: actions/create-release@v1
-        id: create_release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.run_id }}
-          release_name: Release ${{ github.run_id }}
-          draft: false
-          prerelease: false
-
-      - name: Upload Release Assets
-        id: upload-release-asset 
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./*.zip
-          asset_name: ${{ github.base_ref }}-${{ github.head_ref }}-${{ github.run_id }}-${{ github.run_attempt }}.zip
-          asset_content_type: application/zip
+    - name: Upload plugin to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: ./*.zip
+        tag: ${{ github.ref }}
+        overwrite: true
+        file_glob: true
