@@ -1,0 +1,63 @@
+name: Create Release Zips
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create_zips:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies (nếu cần)
+        run: |
+          python -m pip install --upgrade pip
+
+      - name: Zip folders
+        run: |
+          import os
+          import zipfile
+
+          def zip_dir(dir_path, output_path):
+              with zipfile.ZipFile(output_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
+                  for root, _, files in os.walk(dir_path):
+                      for file in files:
+                          file_path = os.path.join(root, file)
+                          zipf.write(file_path, os.path.relpath(file_path, dir_path))
+
+          root_dir = '.' # Thư mục gốc của repository
+          for item in os.listdir(root_dir):
+              item_path = os.path.join(root_dir, item)
+              if os.path.isdir(item_path):
+                  if os.path.exists(os.path.join(item_path, 'src')) and \
+                     os.path.exists(os.path.join(item_path, 'icon.png')) and \
+                     os.path.exists(os.path.join(item_path, 'plugin.json')):
+                      zip_filename = f"{item}.zip"
+                      zip_filepath = os.path.join('.', zip_filename)
+                      print(f"Zipping folder: {item} to {zip_filename}")
+                      zip_dir(item_path, zip_filepath)
+                      print(f"Created: {zip_filepath}")
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ github.run_id }} # Sử dụng run ID làm tag tạm thời
+          release_name: Release ${{ github.run_id }}
+          draft: true
+          prerelease: false
+
+      - name: Upload Release Assets
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ github.workspace }}/*.zip
+          asset_name: ${{ github.base_ref }}-${{ github.head_ref }}-${{ github.run_id }}-${{ github.run_attempt }}.zip # Đặt tên duy nhất cho file zip release
+          asset_content_type: application/zip
