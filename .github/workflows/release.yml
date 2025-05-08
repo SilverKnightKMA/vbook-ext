@@ -23,6 +23,7 @@ jobs:
 
       - name: Zip folders
         run: |
+          python <<EOF
           import os
           import zipfile
 
@@ -45,6 +46,7 @@ jobs:
                       print(f"Zipping folder: {item} to {zip_filename}")
                       zip_dir(item_path, zip_filepath)
                       print(f"Created: {zip_filepath}")
+          EOF
 
       - name: Create Release
         uses: actions/create-release@v1
