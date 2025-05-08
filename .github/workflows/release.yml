@@ -33,10 +33,22 @@ jobs:
 
           def zip_dir(dir_path, output_path):
               with zipfile.ZipFile(output_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
-                  for root, _, files in os.walk(dir_path):
-                      for file in files:
-                          file_path = os.path.join(root, file)
-                          zipf.write(file_path, os.path.relpath(file_path, dir_path))
+                  icon_path = os.path.join(dir_path, 'icon.png')
+                  plugin_json_path = os.path.join(dir_path, 'plugin.json')
+                  src_path = os.path.join(dir_path, 'src') # Có thể là file hoặc thư mục
+
+                  if os.path.exists(icon_path):
+                      zipf.write(icon_path, 'icon.png')
+                  if os.path.exists(plugin_json_path):
+                      zipf.write(plugin_json_path, 'plugin.json')
+                  if os.path.exists(src_path):
+                      if os.path.isfile(src_path):
+                          zipf.write(src_path, 'src')
+                      elif os.path.isdir(src_path):
+                          for root, _, files in os.walk(src_path):
+                              for file in files:
+                                  file_path = os.path.join(root, file)
+                                  zipf.write(file_path, os.path.join('src', os.path.relpath(file_path, src_path)))
 
           root_dir = '.' # Thư mục gốc của repository
 
