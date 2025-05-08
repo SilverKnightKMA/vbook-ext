@@ -7,6 +7,7 @@ function execute(url) {
     if (response.ok) {
         let doc = response.html();
         htm = doc.select("div#chapter-content");
+        htm.select('a[href*="/truyen/"]').remove();
         htm.select("p.none").remove();
         htm.select('img[src*="/images/banners/"]').remove();
         htm.select('img[src*="/lightnovel/banners/"]').remove();
