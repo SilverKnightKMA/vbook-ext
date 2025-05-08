@@ -31,7 +31,7 @@ jobs:
           from datetime import datetime
 
           plugin_data = []
-          build_time = datetime.now().strftime("%Y%m%d%H%M%S") # Định dạng thời gian
+          build_time = int(datetime.now().strftime("%Y%m%d%H%M%S")) # Định dạng thời gian
           print(f"Build timestamp: {build_time}")
 
           def zip_dir(dir_path, output_path):
