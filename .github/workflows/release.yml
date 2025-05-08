@@ -61,10 +61,10 @@ jobs:
                               plugin_data.append({
                                   "name": metadata.get('name'),
                                   "author": metadata.get('author'),
-                                  "path": f"https://github.com/{github.repository}/releases/download/main/{zip_filename}",
+                                  "path": f"https://github.com/SilverKnightKMA/vbook-ext/releases/download/main/{zip_filename}",
                                   "version": metadata.get('version'),
                                   "source": metadata.get('source'),
-                                  "icon": f"https://raw.githubusercontent.com/{github.repository}/refs/heads/main/{item}/icon.png",
+                                  "icon": f"https://raw.githubusercontent.com/SilverKnightKMA/vbook-ext/refs/heads/main/{item}/icon.png",
                                   "description": metadata.get('description'),
                                   "type": metadata.get('type'),
                                   "locale": metadata.get('locale')
