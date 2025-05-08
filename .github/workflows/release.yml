@@ -1,4 +1,4 @@
-name: Create Release Zips
+name: Create Release Plugins
 
 on:
   push:
@@ -25,8 +25,11 @@ jobs:
       - name: Zip folders
         run: |
           python <<EOF
+          import json
           import os
           import zipfile
+
+          plugin_data = []
 
           def zip_dir(dir_path, output_path):
               with zipfile.ZipFile(output_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
@@ -35,25 +38,59 @@ jobs:
                           file_path = os.path.join(root, file)
                           zipf.write(file_path, os.path.relpath(file_path, dir_path))
 
-          root_dir = '.'
+          root_dir = '.' # Thư mục gốc của repository
           for item in os.listdir(root_dir):
               item_path = os.path.join(root_dir, item)
               if os.path.isdir(item_path):
-                  if os.path.exists(os.path.join(item_path, 'src')) and \
-                     os.path.exists(os.path.join(item_path, 'icon.png')) and \
-                     os.path.exists(os.path.join(item_path, 'plugin.json')):
+                  plugin_json_path = os.path.join(item_path, 'plugin.json')
+                  icon_path = os.path.join(item_path, 'icon.png')
+                  src_path = os.path.join(item_path, 'src')
+
+                  if os.path.exists(src_path) and os.path.exists(icon_path) and os.path.exists(plugin_json_path):
                       zip_filename = f"{item}.zip"
                       zip_filepath = os.path.join('.', zip_filename)
                       print(f"Zipping folder: {item} to {zip_filename}")
                       zip_dir(item_path, zip_filepath)
                       print(f"Created: {zip_filepath}")
+
+                      # Đọc thông tin từ plugin.json
+                      try:
+                          with open(plugin_json_path, 'r') as f:
+                              plugin_info = json.load(f)
+                              metadata = plugin_info.get('metadata', {})
+                              plugin_data.append({
+                                  "name": metadata.get('name'),
+                                  "author": metadata.get('author'),
+                                  "path": f"https://github.com/{github.repository}/releases/download/main/{zip_filename}",
+                                  "version": metadata.get('version'),
+                                  "source": metadata.get('source'),
+                                  "icon": f"https://raw.githubusercontent.com/{github.repository}/refs/heads/main/{item}/icon.png",
+                                  "description": metadata.get('description'),
+                                  "type": metadata.get('type'),
+                                  "locale": metadata.get('locale')
+                              })
+                      except Exception as e:
+                          print(f"Error reading plugin.json in {item}: {e}")
+
+          # Tạo file plugin.json tổng
+          output_plugin_json = {
+              "metadata": {
+                  "author": "SilverKnightKMA",
+                  "description": "Danh sách các plugin"
+              },
+              "data": plugin_data
+          }
+
+          with open('plugins.json', 'w') as outfile:
+              json.dump(output_plugin_json, outfile, indent=2, ensure_ascii=False)
+              print("Created plugins.json")
           EOF
 
       - name: Upload plugin to release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./*.zip
+          file: ./*
           tag: ${{ github.ref }}
           overwrite: true
           file_glob: true
