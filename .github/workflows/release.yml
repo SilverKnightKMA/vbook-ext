@@ -51,8 +51,9 @@ jobs:
 
       - name: Create Release
         uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          github_token: ${{ github.token }}
           tag_name: ${{ github.run_id }}
           release_name: Release ${{ github.run_id }}
           draft: true
