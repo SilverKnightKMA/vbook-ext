@@ -28,6 +28,7 @@ jobs:
           import json
           import os
           import zipfile
+          from datetime import datetime
 
           plugin_data = []
           build_time = datetime.now().strftime("%Y%m%d%H%M%S") # Định dạng thời gian
