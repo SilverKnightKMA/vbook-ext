@@ -1,4 +1,10 @@
-load('config.js');
+let BASE_URL = 'https://docln.sbs';
+try {
+    if (CONFIG_URL) {
+        BASE_URL = CONFIG_URL;
+    }
+} catch (error) {
+}
 
 function execute(url) {
     url = url.replace(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)/img, BASE_URL);
@@ -13,7 +19,7 @@ function execute(url) {
         htm.select('img[src*="/lightnovel/banners/"]').remove();
         htm.select("p:contains(Tham gia Hako Discord tại)").remove();
         htm.select("p:contains(Theo dõi Fanpage Hako tại)").remove();
-        htm.select("div.note-reg").remove();
+        //htm.select("div.note-reg").remove();
         htm = htm.html().replace(/<p id=\"\d+\">/g, "<p>");
         htm = htm.replace(/\&nbsp;/g, "");
         collection.forEach((element) => {
