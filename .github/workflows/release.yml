@@ -84,7 +84,7 @@ jobs:
                               plugin_data.append({
                                   "name": metadata.get('name'),
                                   "author": metadata.get('author'),
-                                  "path": f"https://github.com/SilverKnightKMA/vbook-ext/releases/download/main/{zip_filename}",
+                                  "path": f"https://github.com/SilverKnightKMA/vbook-ext/releases/latest/download/{zip_filename}",
                                   "version": metadata.get('version'),
                                   "source": metadata.get('source'),
                                   "icon": f"https://raw.githubusercontent.com/SilverKnightKMA/vbook-ext/refs/heads/main/{item}/icon.png",
@@ -114,6 +114,8 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./*
-          tag: ${{ github.ref }}
+          tag: ${{ github.run_id }}
+          release_name: ${{ github.sha }}
+          make_latest: true
           overwrite: true
           file_glob: true
