@@ -13,7 +13,6 @@ function execute(url) {
         htm.select('img[src*="/lightnovel/banners/"]').remove();
         htm.select("p:contains(Tham gia Hako Discord tại)").remove();
         htm.select("p:contains(Theo dõi Fanpage Hako tại)").remove();
-        htm.select("div.note-reg").remove();
         htm = htm.html().replace(/<p id=\"\d+\">/g, "<p>");
         htm = htm.replace(/\&nbsp;/g, "");
         collection.forEach((element) => {
@@ -21,6 +20,8 @@ function execute(url) {
             let note_content  = doc.select("#" + note +" span.note-content").text();
             htm = htm.replace("["+note+"]"," <i>(📝 "+note_content+")<\/i>");
         });
+        //htm.select("div.note-reg").remove();
+        htm = htm.replace(/<div class="note-reg"[^>]*>[\s\S]*?(?=(?:<div class="[^n]|$))|(?:<span class="note-content(?:_real)?[^>]*>[\s\S]*?(?=(?:<div class="[^n]|$))|<div[^>]*id="note\d+"[^>]*>[\s\S]*?(?=(?:<div class="[^n]|$)))/gi, "");
         return Response.success(htm);
     }
     return null;
