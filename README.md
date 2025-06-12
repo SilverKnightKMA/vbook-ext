@@ -1,5 +1,9 @@
 # Cấu trúc của extension
 
+```
+https://github.com/SilverKnightKMA/vbook-ext/releases/latest/download/plugin.json
+```
+
 ## Thông tin extension
 - Tạo một tệp với tên `plugin.json` vào thư mục của extensions, cấu trúc của tệp có dạng như sau
 ```json
